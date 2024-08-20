@@ -62,11 +62,11 @@ void yyerror(const char *s);
 %token BOOLEAN_VALUE
 %token STRING_VALUE
 //Operations
-%token PLUS
-%token MINUS
-%token MULTIPLY
-%token DIVIDE
-
+%left  PLUS
+%left MINUS
+%left MULTIPLY
+%left DIVIDE
+%nonassoc UMINUS
 
 %start program
 
@@ -94,7 +94,7 @@ variable_assignment:  VAR_NAME EQUAL_SIGN exp {printf("\nVariable  assign is ide
 variable_value:  INT_VALUE | CHAR_VALUE | DOUBLE_VALUE | BOOLEAN_VALUE | STRING_VALUE | member_access |VAR_NAME ;
 
 exp: variable_value |exp PLUS exp {  printf("\n addition \n");}| exp MINUS exp { printf("\nminus\n"); }| exp MULTIPLY exp { printf("\nmul\n");}| 
-exp DIVIDE exp{printf("\n div\n");}| BRACKET_LEFT exp BRACKET_RIGHT { printf("\nparenthesis\n"); };
+exp DIVIDE exp{printf("\n div\n");}| BRACKET_LEFT exp BRACKET_RIGHT { printf("\nparenthesis\n"); }| MINUS exp %prec UMINUS { printf("\nreverse\n");};
 
 variable_type: INT   
               |DOUBLE
